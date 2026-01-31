@@ -11,3 +11,4 @@
 ○ Compiling / ...
  GET / 200 in 5.4s (compile: 4.7s, render: 721ms)
  GET /belajar/software_engineer/se-1 200 in 1695ms (compile: 1498ms, render: 197ms)
+ HEAD / 200 in 1252ms (compile: 327ms, render: 925ms)
