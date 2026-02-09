@@ -1,0 +1,3 @@
+## 2025-05-15 - [IDE Performance Optimization]
+**Learning:** In a multi-pane IDE where one pane (Preview) depends on a frequently changing state (Code), useDeferredValue is more effective than just debouncing because it allows the UI to remain responsive by prioritizing the editor's update over the preview's render. Combining this with React.memo on all non-code-dependent panels (MaterialPanel, AITutor) prevents unnecessary re-renders during high-frequency input.
+**Action:** Always check for heavy side-effect components (like iframes or complex previewers) that depend on editor state and apply useDeferredValue + React.memo as a standard optimization pattern.
