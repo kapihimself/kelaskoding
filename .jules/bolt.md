@@ -1,0 +1,3 @@
+## 2025-05-15 - IDE Responsiveness Optimization
+**Learning:** In the 3-pane IDE layout, updating the 'code' state on every keystroke in the Workspace component causes unnecessary re-renders of the entire component tree, including static panels (MaterialPanel, AITutor) and heavy panels (PreviewPanel with iframe). This can lead to input latency.
+**Action:** Use `useDeferredValue` for the code prop passed to the PreviewPanel and wrap all sub-components in `React.memo` to isolate re-renders to the EditorPanel only during high-frequency typing. Additionally, use granular selectors for Zustand store subscriptions to avoid unnecessary re-renders in the header.
