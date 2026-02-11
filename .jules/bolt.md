@@ -1,0 +1,3 @@
+## 2024-05-15 - [IDE Optimization Pattern]
+**Learning:** In a high-frequency input environment like a coding IDE, passing the code state directly to all sub-components causes unnecessary re-renders of the entire workspace. Material panels, AI tutors, and even the preview don't need to sync with the editor on every single keystroke.
+**Action:** Use `React.memo` for all IDE panels to skip re-renders when their specific props haven't changed. Use `useDeferredValue` for the code prop passed to the Preview panel to decouple heavy iframe/preview updates from the main UI thread, ensuring a fluid typing experience.
