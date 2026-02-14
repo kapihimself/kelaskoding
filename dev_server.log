@@ -1,0 +1,14 @@
+
+> kode-lokal@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+✓ Ready in 1264ms
+○ Compiling / ...
+ GET / 200 in 5.4s (compile: 4.7s, render: 721ms)
+ GET /belajar/software_engineer/se-1 200 in 1695ms (compile: 1498ms, render: 197ms)
+ HEAD / 200 in 1252ms (compile: 327ms, render: 925ms)
