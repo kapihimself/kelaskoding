@@ -1,0 +1,3 @@
+## 2025-05-15 - IDE Rendering Optimization
+**Learning:** In a multi-pane IDE layout, components that don't depend on the current code (like MaterialPanel and AITutor) will still re-render on every keystroke if they are children of the same state provider (Workspace), unless explicitly memoized. Additionally, using useDeferredValue for code-dependent panels (PreviewPanel) prevents them from blocking the main thread during high-frequency typing.
+**Action:** Always combine React.memo for static panels with useDeferredValue for heavy preview panels in IDE-like applications to ensure the editor remains responsive.
