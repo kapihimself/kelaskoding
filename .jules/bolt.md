@@ -1,0 +1,3 @@
+## 2025-05-15 - IDE Render Optimization
+**Learning:** Without memoization, MaterialPanel and AITutor re-render on every keystroke in the editor because they are children of Workspace which holds the 'code' state. Using React.memo on these components, combined with useDeferredValue for the code prop passed to PreviewPanel, significantly improves typing responsiveness by decoupling heavy preview rendering and unnecessary side-panel updates from the main thread.
+**Action:** Always apply React.memo to IDE panels that don't depend on real-time state, and use useDeferredValue for expensive secondary consumers of high-frequency state.
