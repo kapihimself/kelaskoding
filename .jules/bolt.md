@@ -1,0 +1,3 @@
+## 2025-05-15 - IDE Rendering Optimization
+**Learning:** In a multi-pane IDE layout, updating the 'code' state in the parent on every keystroke triggers re-renders across all panels (Material, AI Tutor, Editor, Preview). This causes significant lag during typing as static panels like MaterialPanel and AITutor undergo reconciliation despite no prop changes.
+**Action:** Always wrap static IDE panels in `React.memo()`. Combine this with `useDeferredValue()` for the preview panel to decouple heavy preview rendering from the urgent editor typing state. Use Playwright with console log instrumentation to verify 0-render targets during typing.
