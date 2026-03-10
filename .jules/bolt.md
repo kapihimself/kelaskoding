@@ -1,0 +1,3 @@
+## 2025-03-10 - Optimizing IDE Responsiveness with useDeferredValue
+**Learning:** In a high-frequency input environment like a code editor, updating expensive components like a live preview on every keystroke creates significant lag. While manual debouncing with setTimeout works, React's useDeferredValue is more efficient as it allows React to prioritize the editor's high-priority state updates while keeping the preview update at a lower priority, resulting in a more responsive UI without manual timer management.
+**Action:** Use useDeferredValue to decouple rapid state updates from heavy downstream renders like iframes or complex visualizations. Combine with React.memo for child components to eliminate redundant renders of static sibling panels.
