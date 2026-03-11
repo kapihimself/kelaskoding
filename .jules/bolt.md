@@ -1,0 +1,3 @@
+## 2025-05-15 - IDE Render Optimization with Deferred Values
+**Learning:** In a multi-pane IDE, typing in the editor causes the entire workspace to re-render. Static panels like `MaterialPanel` and `AITutor` don't need to re-render on every keystroke. Wrapping them in `React.memo` and using `useDeferredValue` for the code preview allows the editor to stay responsive (high priority) while the preview updates with a slight, non-blocking delay (low priority).
+**Action:** Always use `React.memo` for static UI components in high-frequency update contexts and leverage `useDeferredValue` to decouple heavy computations or re-renders from user input.
