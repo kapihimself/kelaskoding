@@ -1,0 +1,3 @@
+## 2025-05-15 - IDE Panel Memoization and Deferred Updates
+**Learning:** In a 3-pane IDE layout, updating the central editor state causes all sibling panels (Material, AITutor, Preview) to re-render even if their props are static. Using `React.memo` on static panels combined with `useDeferredValue` for the preview content significantly improves typing responsiveness by offloading heavy preview renders to background tasks and skipping static panel renders entirely.
+**Action:** Always wrap side panels in `React.memo` and use `useDeferredValue` for code-to-preview data flow in interactive coding environments.
