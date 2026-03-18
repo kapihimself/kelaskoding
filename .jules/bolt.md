@@ -1,0 +1,3 @@
+## 2025-02-05 - Deferred Value Render Pattern
+**Learning:** Implementing `useDeferredValue` for the code state in the `Workspace` component causes both the `Workspace` and the `PreviewPanel` to render twice per keystroke. The first render handles the high-priority update (editor typing), and the second render (with the deferred value) handles the lower-priority update (preview processing).
+**Action:** Accept double renders for components that depend on the code state (like `PreviewPanel`) to ensure the `EditorPanel` remains responsive. Combine with `React.memo` for unrelated components (`MaterialPanel`, `AITutor`) to keep their render count at zero during typing.
