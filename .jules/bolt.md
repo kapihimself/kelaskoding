@@ -1,0 +1,3 @@
+## 2026-03-20 - IDE Rendering Optimization
+**Learning:** In a high-frequency update environment like an IDE, standard React re-rendering of the entire workspace for every keystroke is a significant bottleneck. Memoizing static panels (MaterialPanel, AITutor) and using `useDeferredValue` for code-heavy panels (PreviewPanel) ensures the editor remains responsive by decoupling low-priority UI updates from high-priority input.
+**Action:** Always wrap components in `React.memo` and use granular state management or `useDeferredValue` when dealing with real-time text input to maintain 60fps responsiveness.
