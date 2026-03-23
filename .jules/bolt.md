@@ -1,0 +1,3 @@
+## 2025-05-15 - [Unnecessary IDE Re-renders during Typing]
+**Learning:** Every keystroke in the Monaco Editor causes the `Workspace` parent to re-render. This triggers a full re-render of `MaterialPanel`, `AITutor`, and `PreviewPanel` even when their props (like the `lesson` object) haven't changed. In a complex IDE, this adds significant overhead to the main thread, leading to input lag.
+**Action:** Apply `React.memo` to static panels (`MaterialPanel`, `AITutor`) and use `useDeferredValue` for the `code` state passed to `PreviewPanel` to ensure the editor remains responsive while the preview updates in the background.
