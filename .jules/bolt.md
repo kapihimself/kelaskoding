@@ -1,0 +1,3 @@
+## 2024-05-15 - [IDE Rendering Optimization]
+**Learning:** In a multi-pane IDE layout, static panels like MaterialPanel and AITutor re-render on every keystroke in the Editor due to state updates in the shared parent (Workspace). Standard React.memo is sufficient to eliminate these unnecessary renders, as their props (lesson, error, success status) change infrequently compared to the code state.
+**Action:** Always memoize peripheral UI components in interactive state-heavy views like the IDE Workspace. Combine with useDeferredValue for code previews to ensure typing remains high-priority and lag-free.
