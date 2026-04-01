@@ -1,0 +1,3 @@
+## 2026-04-01 - [IDE Render Optimization]
+**Learning:** In a high-frequency interaction UI like an IDE, even small re-renders of static components (Material panels, AI tutors) on every keystroke can lead to noticeable lag as the complexity grows. Combining `React.memo` for static sibling components with `useDeferredValue` for heavy preview updates is a powerful pattern to maintain editor responsiveness.
+**Action:** Always profile render counts during frequent state updates (like typing) and prioritize decoupling the high-priority input (editor) from low-priority side effects (previews/static UI) using deferred values and memoization.
