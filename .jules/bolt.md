@@ -1,0 +1,3 @@
+## 2025-05-15 - IDE Render Optimization
+**Learning:** In a multi-pane IDE layout where the state (code) is shared across components, typing in the editor triggers re-renders for all sibling components (MaterialPanel, AITutor, etc.) even if their props don't change. Using `React.memo` for these panels and `useDeferredValue` for the code preview ensures the editor remains responsive while background updates are throttled.
+**Action:** Always wrap heavy sidebar or preview components in `React.memo` when they are siblings of a frequently updating input like a code editor. Use `useDeferredValue` to decouple the high-priority input state from low-priority background processing.
