@@ -1,0 +1,3 @@
+## 2025-05-15 - IDE Re-render Bottleneck
+**Learning:** Typing in the Monaco Editor triggered full re-renders of all Workspace panels (MaterialPanel, AITutor, PreviewPanel) on every keystroke. This happened because the parent `Workspace` component held the `code` state and passed it down, and its handlers were recreated on every render, breaking child memoization even if it were present.
+**Action:** Applied `React.memo` to all IDE panels. In `Workspace.tsx`, wrapped event handlers in `useCallback` to maintain stable references, and used `useDeferredValue` for the `code` prop passed to `PreviewPanel` to decouple editor responsiveness from preview updates.
