@@ -1,0 +1,3 @@
+## 2024-04-13 - [IDE Performance Optimization]
+**Learning:** In the 3-pane IDE layout, the `MaterialPanel` and `AITutor` components were re-rendering on every keystroke in the `EditorPanel` because they shared the same parent (`Workspace`) state, despite their props not changing. Additionally, the `PreviewPanel` used a manual `setTimeout` for debouncing which was less efficient than React's native concurrent features.
+**Action:** Use `React.memo` for static or infrequently changing panels (`MaterialPanel`, `AITutor`). Implement `useDeferredValue` for the code state and pass it to the `PreviewPanel` to decouple editor responsiveness from preview rendering, allowing React to prioritize typing.
