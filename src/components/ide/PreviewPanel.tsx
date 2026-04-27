@@ -14,6 +14,8 @@ export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) 
 
   useEffect(() => {
     if (mode === 'html') {
+      // With useDeferredValue in Workspace, we can reduce or remove the timeout
+      // but keeping a small one helps if the code is very large to avoid too many iframe reloads
       const timeout = setTimeout(() => {
         setDoc(`
           <html>
