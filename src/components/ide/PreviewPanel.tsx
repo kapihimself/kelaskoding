@@ -9,7 +9,7 @@ interface PreviewPanelProps {
   output: string;
 }
 
-export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
+function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
   const [doc, setDoc] = useState('');
 
   useEffect(() => {
@@ -83,3 +83,6 @@ export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) 
     </div>
   );
 }
+
+// Optimization: Prevent re-renders when other workspace components update
+export default React.memo(PreviewPanel);

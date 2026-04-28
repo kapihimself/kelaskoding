@@ -8,7 +8,7 @@ interface AITutorProps {
   lesson: Lesson;
 }
 
-export default function AITutor({ lesson }: AITutorProps) {
+function AITutor({ lesson }: AITutorProps) {
   const getSuggestion = () => {
     if (lesson.previewMode === 'html') {
       return "Ingat, setiap tag pembuka harus ada penutupnya. Pastikan kamu mengetik teksnya persis seperti yang diminta.";
@@ -41,3 +41,6 @@ export default function AITutor({ lesson }: AITutorProps) {
     </div>
   );
 }
+
+// Optimization: Prevent re-renders when typing in the editor
+export default React.memo(AITutor);

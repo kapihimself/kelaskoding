@@ -8,7 +8,7 @@ interface MaterialPanelProps {
   isSuccess: boolean;
 }
 
-export default function MaterialPanel({ lesson, error, isSuccess }: MaterialPanelProps) {
+function MaterialPanel({ lesson, error, isSuccess }: MaterialPanelProps) {
   return (
     <div className="p-6 flex flex-col gap-6">
       {/* Materi Content */}
@@ -62,3 +62,6 @@ export default function MaterialPanel({ lesson, error, isSuccess }: MaterialPane
     </div>
   );
 }
+
+// Optimization: Prevent re-renders when typing in the editor
+export default React.memo(MaterialPanel);
