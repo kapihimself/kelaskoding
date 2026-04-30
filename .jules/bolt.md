@@ -1,0 +1,3 @@
+## 2025-05-14 - IDE Workspace Optimization
+**Learning:** In a multi-pane IDE layout where one state (e.g., `code`) is shared across several panels, static content like documentation and AI suggestions can cause significant UI lag if they re-render on every keystroke. Combining `React.memo` for static panels with `useDeferredValue` for the preview pane effectively isolates the high-frequency editor updates from expensive side effects.
+**Action:** Always check for "purely static" panels that consume high-frequency state and apply `React.memo` early. Use `useDeferredValue` to deprioritize heavy computations/iframes that depend on that state.
