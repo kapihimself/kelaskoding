@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { memo } from 'react';
 import Editor from '@monaco-editor/react';
 
 interface EditorPanelProps {
@@ -9,7 +9,11 @@ interface EditorPanelProps {
   language: 'html' | 'python';
 }
 
-export default function EditorPanel({ code, onChange, language }: EditorPanelProps) {
+/**
+ * PERFORMANCE: memoization prevents EditorPanel from re-rendering
+ * when unrelated Workspace state changes.
+ */
+function EditorPanel({ code, onChange, language }: EditorPanelProps) {
   return (
     <div className="h-full flex flex-col bg-[#1e1e1e]">
       <div className="h-10 px-4 flex items-center bg-zinc-900 border-b border-white/5">
@@ -38,3 +42,5 @@ export default function EditorPanel({ code, onChange, language }: EditorPanelPro
     </div>
   );
 }
+
+export default memo(EditorPanel);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { Terminal, Globe } from 'lucide-react';
 
 interface PreviewPanelProps {
@@ -9,7 +9,11 @@ interface PreviewPanelProps {
   output: string;
 }
 
-export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
+/**
+ * PERFORMANCE: memoization is CRITICAL here for useDeferredValue in Workspace.tsx
+ * to actually prevent unnecessary heavy iframe/terminal re-renders.
+ */
+function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
   const [doc, setDoc] = useState('');
 
   useEffect(() => {
@@ -83,3 +87,5 @@ export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) 
     </div>
   );
 }
+
+export default memo(PreviewPanel);
