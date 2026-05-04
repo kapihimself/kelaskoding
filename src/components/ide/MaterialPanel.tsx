@@ -8,7 +8,7 @@ interface MaterialPanelProps {
   isSuccess: boolean;
 }
 
-export default function MaterialPanel({ lesson, error, isSuccess }: MaterialPanelProps) {
+function MaterialPanel({ lesson, error, isSuccess }: MaterialPanelProps) {
   return (
     <div className="p-6 flex flex-col gap-6">
       {/* Materi Content */}
@@ -62,3 +62,7 @@ export default function MaterialPanel({ lesson, error, isSuccess }: MaterialPane
     </div>
   );
 }
+
+/** PERFORMANCE: React.memo prevents re-renders when parent Workspace state (code) changes,
+ * as this component only depends on lesson, error, and isSuccess. */
+export default React.memo(MaterialPanel);

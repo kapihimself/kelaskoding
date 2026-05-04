@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useDeferredValue, memo } from 'react';
 import { Terminal, Globe } from 'lucide-react';
 
 interface PreviewPanelProps {
@@ -9,11 +9,15 @@ interface PreviewPanelProps {
   output: string;
 }
 
-export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
+const PreviewPanel = memo(function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
+  /** PERFORMANCE: useDeferredValue allows the editor to remain responsive by
+   * deferring the preview update during heavy typing. */
+  const deferredCode = useDeferredValue(code);
   const [doc, setDoc] = useState('');
 
   useEffect(() => {
     if (mode === 'html') {
+      // Small timeout to debounce iframe reloads, working together with useDeferredValue
       const timeout = setTimeout(() => {
         setDoc(`
           <html>
@@ -36,13 +40,13 @@ export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) 
                 }
               </style>
             </head>
-            <body>${code}</body>
+            <body>${deferredCode}</body>
           </html>
         `);
       }, 300);
       return () => clearTimeout(timeout);
     }
-  }, [code, mode]);
+  }, [deferredCode, mode]);
 
   return (
     <div className="h-full flex flex-col bg-zinc-950">
@@ -82,4 +86,6 @@ export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) 
       </div>
     </div>
   );
-}
+});
+
+export default PreviewPanel;
