@@ -9,6 +9,7 @@ interface EditorPanelProps {
   language: 'html' | 'python';
 }
 
+
 export default function EditorPanel({ code, onChange, language }: EditorPanelProps) {
   return (
     <div className="h-full flex flex-col bg-[#1e1e1e]">
