@@ -1,0 +1,3 @@
+## 2026-05-11 - [IDE Performance Pattern]
+**Learning:** In a multi-pane IDE layout where a central state (code) drives both the editor and a heavy preview (iframe), using `useDeferredValue` alone isn't enough if sibling components (MaterialPanel, AITutor) also consume the parent's props. While `useDeferredValue` handles prioritization, sibling components will still re-render on every keystroke unless they are explicitly wrapped in `React.memo`.
+**Action:** Always combine `useDeferredValue` for heavy consumer panels with `React.memo` for static sibling panels to achieve zero-cost typing responsiveness.
