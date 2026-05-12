@@ -1,0 +1,3 @@
+## 2026-05-12 - IDE Performance Pattern
+**Learning:** Combine `React.memo` with `useDeferredValue` for code-dependent panels (e.g., PreviewPanel). While `useDeferredValue` handles prioritization, keeping a minimal `setTimeout` (debounce) inside the panel can still be beneficial for very large codebases to prevent excessive iframe reloads. Verification confirmed memoization reduced static panel renders (MaterialPanel, AITutor) to zero during typing. Always ensure `React` or `memo` is explicitly imported to avoid runtime `ReferenceError`.
+**Action:** Always memoize sibling components in high-frequency update contexts (like editors) and use deferred values for heavy preview panes.
