@@ -1,0 +1,3 @@
+## 2026-05-19 - IDE Workspace Render Optimization
+**Learning:** High-frequency state updates (like typing in a code editor) in a shared parent component (`Workspace`) cause redundant re-renders of sibling components (`MaterialPanel`, `AITutor`) and lag in heavy components (`PreviewPanel`). Standard `React.memo` is insufficient for the heavy sibling (`PreviewPanel`) because it still receives the changing `code` prop.
+**Action:** Use `React.memo` for truly static siblings to drop their render count to zero. Combine `useDeferredValue` with `React.memo` for the heavy sibling to ensure the UI remains responsive by deprioritizing the preview update.
