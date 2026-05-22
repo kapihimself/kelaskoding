@@ -1,0 +1,3 @@
+## 2026-05-19 - Optimization of Workspace IDE Panels
+**Learning:** Sibling components in a shared parent state (like the Workspace IDE) re-render on every state update even if they don't use that state. Wrapping them in `React.memo` effectively isolates them. Additionally, `useDeferredValue` is critical for offloading non-urgent updates (like preview iframes) from the main UI thread during high-frequency events like typing.
+**Action:** Always check for expensive or static siblings when implementing real-time editors and apply `memo` + `useDeferredValue` patterns to maintain 60fps responsiveness.
