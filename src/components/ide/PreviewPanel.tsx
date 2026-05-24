@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { Terminal, Globe } from 'lucide-react';
 
 interface PreviewPanelProps {
@@ -9,38 +9,37 @@ interface PreviewPanelProps {
   output: string;
 }
 
-export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
+/** PERFORMANCE: React.memo combined with useDeferredValue in parent optimizes preview updates.
+ * Removed internal setTimeout debounce in favor of idiomatic useDeferredValue-driven updates. */
+const PreviewPanel = memo(function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
   const [doc, setDoc] = useState('');
 
   useEffect(() => {
     if (mode === 'html') {
-      const timeout = setTimeout(() => {
-        setDoc(`
-          <html>
-            <head>
-              <style>
-                body {
-                  font-family: sans-serif;
-                  color: white;
-                  padding: 20px;
-                  background: transparent;
-                }
-                h1 { color: #3b82f6; }
-                button {
-                  padding: 8px 16px;
-                  background: #3b82f6;
-                  color: white;
-                  border: none;
-                  border-radius: 4px;
-                  cursor: pointer;
-                }
-              </style>
-            </head>
-            <body>${code}</body>
-          </html>
-        `);
-      }, 300);
-      return () => clearTimeout(timeout);
+      setDoc(`
+        <html>
+          <head>
+            <style>
+              body {
+                font-family: sans-serif;
+                color: white;
+                padding: 20px;
+                background: transparent;
+              }
+              h1 { color: #3b82f6; }
+              button {
+                padding: 8px 16px;
+                background: #3b82f6;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+              }
+            </style>
+          </head>
+          <body>${code}</body>
+        </html>
+      `);
     }
   }, [code, mode]);
 
@@ -82,4 +81,6 @@ export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) 
       </div>
     </div>
   );
-}
+});
+
+export default PreviewPanel;
