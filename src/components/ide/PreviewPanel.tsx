@@ -14,33 +14,30 @@ export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) 
 
   useEffect(() => {
     if (mode === 'html') {
-      const timeout = setTimeout(() => {
-        setDoc(`
-          <html>
-            <head>
-              <style>
-                body {
-                  font-family: sans-serif;
-                  color: white;
-                  padding: 20px;
-                  background: transparent;
-                }
-                h1 { color: #3b82f6; }
-                button {
-                  padding: 8px 16px;
-                  background: #3b82f6;
-                  color: white;
-                  border: none;
-                  border-radius: 4px;
-                  cursor: pointer;
-                }
-              </style>
-            </head>
-            <body>${code}</body>
-          </html>
-        `);
-      }, 300);
-      return () => clearTimeout(timeout);
+      setDoc(`
+        <html>
+          <head>
+            <style>
+              body {
+                font-family: sans-serif;
+                color: white;
+                padding: 20px;
+                background: transparent;
+              }
+              h1 { color: #3b82f6; }
+              button {
+                padding: 8px 16px;
+                background: #3b82f6;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+              }
+            </style>
+          </head>
+          <body>${code}</body>
+        </html>
+      `);
     }
   }, [code, mode]);
 
