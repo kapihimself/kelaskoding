@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { memo } from 'react';
 import { Sparkles, MessageSquare } from 'lucide-react';
 import { Lesson } from '@/data/curriculum';
 
@@ -8,7 +8,7 @@ interface AITutorProps {
   lesson: Lesson;
 }
 
-export default function AITutor({ lesson }: AITutorProps) {
+export const AITutor = memo(function AITutor({ lesson }: AITutorProps) {
   const getSuggestion = () => {
     if (lesson.previewMode === 'html') {
       return "Ingat, setiap tag pembuka harus ada penutupnya. Pastikan kamu mengetik teksnya persis seperti yang diminta.";
@@ -40,4 +40,6 @@ export default function AITutor({ lesson }: AITutorProps) {
       </div>
     </div>
   );
-}
+});
+
+export default AITutor;
