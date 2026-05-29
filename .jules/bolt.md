@@ -1,0 +1,4 @@
+## 2026-05-19 - Optimized Workspace rendering with memo and deferred value
+**Learning:** In a multi-pane IDE layout where a central state (like 'code') is updated frequently, sibling panels that don't depend on every character change (like instructions or AI suggestions) cause significant redundant re-renders. Standard memoization with `React.memo` effectively silences these. Additionally, heavy UI updates like iframe document generation for live previews are better handled with `useDeferredValue` than manual `setTimeout` debouncing, as it integrates better with React 18's concurrent rendering.
+
+**Action:** Always use `React.memo` for panels sibling to a high-frequency editor. Use `useDeferredValue` for 'code' state being passed to expensive preview components to keep the main editor thread responsive.
