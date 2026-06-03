@@ -1,6 +1,11 @@
 "use client";
 
-import React from 'react';
+/**
+ * PERFORMANCE: This component is wrapped in React.memo to prevent unnecessary re-renders
+ * when the user types in the editor. Since the AI suggestion is derived from the static
+ * lesson data, it doesn't need to update on every keystroke.
+ */
+import React, { memo } from 'react';
 import { Sparkles, MessageSquare } from 'lucide-react';
 import { Lesson } from '@/data/curriculum';
 
@@ -8,7 +13,7 @@ interface AITutorProps {
   lesson: Lesson;
 }
 
-export default function AITutor({ lesson }: AITutorProps) {
+const AITutor = memo(function AITutor({ lesson }: AITutorProps) {
   const getSuggestion = () => {
     if (lesson.previewMode === 'html') {
       return "Ingat, setiap tag pembuka harus ada penutupnya. Pastikan kamu mengetik teksnya persis seperti yang diminta.";
@@ -40,4 +45,6 @@ export default function AITutor({ lesson }: AITutorProps) {
       </div>
     </div>
   );
-}
+});
+
+export default AITutor;
