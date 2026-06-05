@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { memo } from 'react';
 import { Sparkles, MessageSquare } from 'lucide-react';
 import { Lesson } from '@/data/curriculum';
 
@@ -8,12 +8,15 @@ interface AITutorProps {
   lesson: Lesson;
 }
 
-export default function AITutor({ lesson }: AITutorProps) {
+/** PERFORMANCE: React.memo prevents AITutor from re-rendering when code state changes
+ * in the sibling EditorPanel, as the lesson content is static.
+ */
+const AITutor = memo(function AITutor({ lesson }: AITutorProps) {
   const getSuggestion = () => {
     if (lesson.previewMode === 'html') {
       return "Ingat, setiap tag pembuka harus ada penutupnya. Pastikan kamu mengetik teksnya persis seperti yang diminta.";
     }
-    return "Di Python, fungsi print() membutuhkan tanda kurung dan tanda kutip untuk mencetak kalimat.";
+    return "Di Python, fungsi print() membutuhkan tanda kurung and tanda kutip untuk mencetak kalimat.";
   };
 
   return (
@@ -40,4 +43,6 @@ export default function AITutor({ lesson }: AITutorProps) {
       </div>
     </div>
   );
-}
+});
+
+export default AITutor;
