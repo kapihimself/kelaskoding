@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, memo } from 'react';
 import { Terminal, Globe } from 'lucide-react';
 
 interface PreviewPanelProps {
@@ -9,39 +9,37 @@ interface PreviewPanelProps {
   output: string;
 }
 
-export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
-  const [doc, setDoc] = useState('');
-
-  useEffect(() => {
-    if (mode === 'html') {
-      const timeout = setTimeout(() => {
-        setDoc(`
-          <html>
-            <head>
-              <style>
-                body {
-                  font-family: sans-serif;
-                  color: white;
-                  padding: 20px;
-                  background: transparent;
-                }
-                h1 { color: #3b82f6; }
-                button {
-                  padding: 8px 16px;
-                  background: #3b82f6;
-                  color: white;
-                  border: none;
-                  border-radius: 4px;
-                  cursor: pointer;
-                }
-              </style>
-            </head>
-            <body>${code}</body>
-          </html>
-        `);
-      }, 300);
-      return () => clearTimeout(timeout);
-    }
+/** PERFORMANCE: React.memo combined with useDeferredValue in the parent (Workspace)
+ * ensures the PreviewPanel only re-renders when the main thread is idle or when
+ * output/mode changes. internal debouncing is replaced by React's native deferred updates.
+ */
+const PreviewPanel = memo(function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
+  const srcDoc = useMemo(() => {
+    if (mode !== 'html') return '';
+    return `
+      <html>
+        <head>
+          <style>
+            body {
+              font-family: sans-serif;
+              color: white;
+              padding: 20px;
+              background: transparent;
+            }
+            h1 { color: #3b82f6; }
+            button {
+              padding: 8px 16px;
+              background: #3b82f6;
+              color: white;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+            }
+          </style>
+        </head>
+        <body>${code}</body>
+      </html>
+    `;
   }, [code, mode]);
 
   return (
@@ -64,7 +62,7 @@ export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) 
         {mode === 'html' ? (
           <iframe
             title="preview"
-            srcDoc={doc}
+            srcDoc={srcDoc}
             className="w-full h-full border-none bg-zinc-950"
             sandbox="allow-scripts"
           />
@@ -82,4 +80,6 @@ export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) 
       </div>
     </div>
   );
-}
+});
+
+export default PreviewPanel;

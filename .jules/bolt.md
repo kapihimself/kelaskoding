@@ -1,0 +1,3 @@
+## 2026-05-30 - IDE Performance Pattern
+**Learning:** Combine React.memo with useDeferredValue for code-dependent panels (e.g., PreviewPanel). Declare useDeferredValue in the parent (Workspace) to decouple typing from heavy child updates. Remove redundant internal setTimeout debouncing within child components when using useDeferredValue to avoid excessive lag and redundant logic.
+**Action:** Always wrap static side panels (Material, AITutor) in React.memo when their props are stable during sibling interaction. Use useDeferredValue for high-frequency state updates (typing) that feed into expensive downstream components (iframe renders).
