@@ -1,0 +1,3 @@
+## 2026-05-30 - IDE Performance Pattern: React.memo + useDeferredValue
+**Learning:** In editor-based UIs, typing triggers high-frequency state updates. Sibling components that don't depend on the code state (like instructions or AI suggestions) should be wrapped in React.memo to prevent redundant re-renders. For the preview panel which *does* depend on the code, using useDeferredValue in the parent component decouples the heavy render phase from the main thread, keeping the editor responsive.
+**Action:** Always wrap static/lesson-dependent panels in React.memo in the Workspace and use useDeferredValue for the code state passed to the PreviewPanel. Remove legacy setTimeout debouncing when useDeferredValue is used to avoid redundant delay logic.
