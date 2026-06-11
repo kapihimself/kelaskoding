@@ -1,0 +1,3 @@
+## 2026-06-10 - Preventing Redundant IDE Pane Re-renders
+**Learning:** In the Workspace IDE layout, typing in the Monaco editor triggers state updates in the parent `Workspace` component. Without memoization, sibling panels like `MaterialPanel` and `AITutor` re-render on every keystroke, even though their props (`lesson`, `error`, `isSuccess`) remain stable during active editing. This leads to approximately 2 unnecessary re-renders per character per panel.
+**Action:** Use `React.memo` for IDE sidebar panels that depend on stable lesson data to ensure 0 re-renders during code input, preserving CPU cycles for editor responsiveness and live previews.
