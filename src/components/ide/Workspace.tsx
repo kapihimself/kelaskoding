@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useDeferredValue } from 'react';
 import { Lesson } from '@/data/curriculum';
 import MaterialPanel from './MaterialPanel';
 import EditorPanel from './EditorPanel';
@@ -22,6 +22,9 @@ interface WorkspaceProps {
 
 export default function Workspace({ lesson, nextLessonId, trackId }: WorkspaceProps) {
   const [code, setCode] = useState(lesson.initialCode);
+  /** PERFORMANCE: useDeferredValue allows typing to remain fluid
+   * by deferring the heavy preview/iframe updates. */
+  const deferredCode = useDeferredValue(code);
   const [output, setOutput] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
@@ -171,7 +174,7 @@ export default function Workspace({ lesson, nextLessonId, trackId }: WorkspacePr
         {/* Right: Preview */}
         <div className="w-1/3 bg-zinc-900/30">
           <PreviewPanel
-            code={code}
+            code={deferredCode}
             mode={lesson.previewMode}
             output={output}
           />
