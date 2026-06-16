@@ -1,0 +1,3 @@
+## 2026-06-14 - IDE Performance Pattern: useDeferredValue + React.memo
+**Learning:** In a multi-pane IDE layout where a shared parent state (like code) drives heavy updates in one pane (Preview) and is shared with others (MaterialPanel, AITutor), typing becomes laggy because every keystroke triggers full re-renders. `useDeferredValue` allows the UI to stay responsive by prioritizing the editor update while deferring the heavy preview update. Combining this with `React.memo` on sibling panels ensures they don't re-render at all if their props are stable.
+**Action:** Always combine `useDeferredValue` in the parent with `React.memo` in children when dealing with high-frequency state updates like typing to decouple expensive renders from user input.
