@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useDeferredValue } from 'react';
 import { Lesson } from '@/data/curriculum';
 import MaterialPanel from './MaterialPanel';
 import EditorPanel from './EditorPanel';
@@ -11,7 +11,7 @@ import { useStore } from '@/store/useStore';
 import { validateCode } from '@/lib/validator';
 import confetti from 'canvas-confetti';
 import { Button } from '@/components/ui/button';
-import { Play, RotateCcw, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
+import { Play, RotateCcw, ArrowRight, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 
 interface WorkspaceProps {
@@ -22,6 +22,14 @@ interface WorkspaceProps {
 
 export default function Workspace({ lesson, nextLessonId, trackId }: WorkspaceProps) {
   const [code, setCode] = useState(lesson.initialCode);
+
+  /**
+   * PERFORMANCE: Defer code updates for the preview to keep the editor responsive.
+   * This allows the editor to update immediately while the PreviewPanel (which might
+   * involve heavy iframe reloads) updates during idle time.
+   */
+  const deferredCode = useDeferredValue(code);
+
   const [output, setOutput] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
@@ -171,7 +179,7 @@ export default function Workspace({ lesson, nextLessonId, trackId }: WorkspacePr
         {/* Right: Preview */}
         <div className="w-1/3 bg-zinc-900/30">
           <PreviewPanel
-            code={code}
+            code={deferredCode}
             mode={lesson.previewMode}
             output={output}
           />
