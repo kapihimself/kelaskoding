@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { Terminal, Globe } from 'lucide-react';
 
 interface PreviewPanelProps {
@@ -9,7 +9,12 @@ interface PreviewPanelProps {
   output: string;
 }
 
-export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
+/**
+ * PERFORMANCE: React.memo used in conjunction with useDeferredValue in Workspace.tsx
+ * allows this component to update less frequently than the editor,
+ * improving responsiveness during rapid typing.
+ */
+const PreviewPanel = memo(function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
   const [doc, setDoc] = useState('');
 
   useEffect(() => {
@@ -82,4 +87,6 @@ export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) 
       </div>
     </div>
   );
-}
+});
+
+export default PreviewPanel;
