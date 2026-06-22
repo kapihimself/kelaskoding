@@ -1,0 +1,3 @@
+## 2026-06-14 - IDE Component Memoization
+**Learning:** In the Workspace IDE layout, typing in the Monaco editor triggers parent state updates that cause all side panels (MaterialPanel, AITutor) and the PreviewPanel to re-render on every keystroke. Using React.memo on static side panels and useDeferredValue for the preview content significantly improves typing responsiveness by reducing total render work.
+**Action:** Always memoize sibling components in high-frequency update scenarios like editors or real-time dashboards. Use useDeferredValue for heavy non-critical updates like iframes or complex visualizations to keep the UI thread responsive.

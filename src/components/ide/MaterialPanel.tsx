@@ -1,4 +1,6 @@
-import React from 'react';
+"use client";
+
+import React, { memo } from 'react';
 import { Lesson } from '@/data/curriculum';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
 
@@ -8,7 +10,12 @@ interface MaterialPanelProps {
   isSuccess: boolean;
 }
 
-export default function MaterialPanel({ lesson, error, isSuccess }: MaterialPanelProps) {
+/**
+ * PERFORMANCE: Wrapped in React.memo to prevent unnecessary re-renders when the user
+ * types in the editor. This component only needs to re-render when the lesson,
+ * error state, or success state changes.
+ */
+function MaterialPanel({ lesson, error, isSuccess }: MaterialPanelProps) {
   return (
     <div className="p-6 flex flex-col gap-6">
       {/* Materi Content */}
@@ -62,3 +69,5 @@ export default function MaterialPanel({ lesson, error, isSuccess }: MaterialPane
     </div>
   );
 }
+
+export default memo(MaterialPanel);
