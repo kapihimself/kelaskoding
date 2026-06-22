@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { memo } from 'react';
 import { Sparkles, MessageSquare } from 'lucide-react';
 import { Lesson } from '@/data/curriculum';
 
@@ -8,7 +8,11 @@ interface AITutorProps {
   lesson: Lesson;
 }
 
-export default function AITutor({ lesson }: AITutorProps) {
+/**
+ * PERFORMANCE: Wrapped in React.memo to prevent unnecessary re-renders during
+ * active coding sessions. This component only depends on the lesson object.
+ */
+function AITutor({ lesson }: AITutorProps) {
   const getSuggestion = () => {
     if (lesson.previewMode === 'html') {
       return "Ingat, setiap tag pembuka harus ada penutupnya. Pastikan kamu mengetik teksnya persis seperti yang diminta.";
@@ -41,3 +45,5 @@ export default function AITutor({ lesson }: AITutorProps) {
     </div>
   );
 }
+
+export default memo(AITutor);
