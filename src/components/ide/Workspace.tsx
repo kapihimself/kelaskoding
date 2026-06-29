@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useDeferredValue, useCallback } from 'react';
 import { Lesson } from '@/data/curriculum';
 import MaterialPanel from './MaterialPanel';
 import EditorPanel from './EditorPanel';
@@ -26,8 +26,21 @@ export default function Workspace({ lesson, nextLessonId, trackId }: WorkspacePr
   const [isSuccess, setIsSuccess] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   const completeLesson = useStore((state) => state.completeLesson);
   const addBadge = useStore((state) => state.addBadge);
+
+  /** PERFORMANCE: useDeferredValue decouples the "urgent" typing state from the "non-urgent" preview update.
+   * Combined with React.memo in PreviewPanel, this allows the editor to remain responsive while typing.
+   */
+  const deferredCode = useDeferredValue(code);
+
+  /** PERFORMANCE: useCallback ensures the onChange prop for EditorPanel is stable,
+   * which is required for React.memo(EditorPanel) to be effective.
+   */
+  const handleCodeChange = useCallback((value: string) => {
+    setCode(value);
+  }, []);
 
   useEffect(() => {
     setCode(lesson.initialCode);
@@ -163,7 +176,7 @@ export default function Workspace({ lesson, nextLessonId, trackId }: WorkspacePr
         <div className="w-1/3 border-r border-white/5">
           <EditorPanel
             code={code}
-            onChange={setCode}
+            onChange={handleCodeChange}
             language={lesson.previewMode === 'html' ? 'html' : 'python'}
           />
         </div>
@@ -171,7 +184,7 @@ export default function Workspace({ lesson, nextLessonId, trackId }: WorkspacePr
         {/* Right: Preview */}
         <div className="w-1/3 bg-zinc-900/30">
           <PreviewPanel
-            code={code}
+            code={deferredCode}
             mode={lesson.previewMode}
             output={output}
           />
