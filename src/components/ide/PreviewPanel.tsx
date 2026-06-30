@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { Terminal, Globe } from 'lucide-react';
 
 interface PreviewPanelProps {
@@ -9,7 +9,12 @@ interface PreviewPanelProps {
   output: string;
 }
 
-export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
+/**
+ * PERFORMANCE: Wrapped in React.memo to work with useDeferredValue in the parent.
+ * This allows the PreviewPanel to skip the "urgent" render phase during typing
+ * and only re-render when the deferred code value is updated.
+ */
+function PreviewPanel({ code, mode, output }: PreviewPanelProps) {
   const [doc, setDoc] = useState('');
 
   useEffect(() => {
@@ -83,3 +88,5 @@ export default function PreviewPanel({ code, mode, output }: PreviewPanelProps) 
     </div>
   );
 }
+
+export default memo(PreviewPanel);
