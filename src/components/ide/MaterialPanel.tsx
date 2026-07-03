@@ -1,4 +1,6 @@
-import React from 'react';
+"use client";
+
+import React, { memo } from 'react';
 import { Lesson } from '@/data/curriculum';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
 
@@ -8,7 +10,11 @@ interface MaterialPanelProps {
   isSuccess: boolean;
 }
 
-export default function MaterialPanel({ lesson, error, isSuccess }: MaterialPanelProps) {
+/**
+ * PERFORMANCE: Memoized to prevent re-renders when the code state changes in the parent Workspace.
+ * Only re-renders when lesson content, error status, or success status changes.
+ */
+const MaterialPanel = memo(function MaterialPanel({ lesson, error, isSuccess }: MaterialPanelProps) {
   return (
     <div className="p-6 flex flex-col gap-6">
       {/* Materi Content */}
@@ -61,4 +67,6 @@ export default function MaterialPanel({ lesson, error, isSuccess }: MaterialPane
       )}
     </div>
   );
-}
+});
+
+export default MaterialPanel;
