@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useDeferredValue } from 'react';
 import { Lesson } from '@/data/curriculum';
 import MaterialPanel from './MaterialPanel';
 import EditorPanel from './EditorPanel';
@@ -28,6 +28,10 @@ export default function Workspace({ lesson, nextLessonId, trackId }: WorkspacePr
   const [error, setError] = useState<string | null>(null);
   const completeLesson = useStore((state) => state.completeLesson);
   const addBadge = useStore((state) => state.addBadge);
+  // Optimization: useDeferredValue for the code state to decouple typing
+  // in the editor from the more expensive preview rendering.
+  // Expected impact: Reduces main thread blocking and avoids lag during typing.
+  const deferredCode = useDeferredValue(code);
 
   useEffect(() => {
     setCode(lesson.initialCode);
@@ -171,7 +175,7 @@ export default function Workspace({ lesson, nextLessonId, trackId }: WorkspacePr
         {/* Right: Preview */}
         <div className="w-1/3 bg-zinc-900/30">
           <PreviewPanel
-            code={code}
+            code={deferredCode}
             mode={lesson.previewMode}
             output={output}
           />
